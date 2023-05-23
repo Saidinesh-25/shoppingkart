@@ -1,12 +1,12 @@
+import { Box } from "@chakra-ui/react";
 import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
   return (
     <div>
-      <div>Zebras and Sharks</div>
+      <Box w={"150px"} h={"30px"} bg="gray.100">
+        Zebras and Sharks
+      </Box>
     </div>
   );
 };
