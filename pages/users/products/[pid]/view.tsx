@@ -39,13 +39,43 @@ const View = ({ value }: any) => {
   ];
   const router = useRouter();
   const [selectedColor, setSelectedColor] = useState<string>("");
+  const [selectedSize, setSelectedSize] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  console.log(selectedSize, "hola");
 
   const handleColorSelect = (color: string) => {
     setSelectedColor(color);
+    setErrorMessage("");
+  };
+  const handleSizeSelect = (size: string) => {
+    setSelectedSize(size);
+    setErrorMessage("");
   };
 
-  const handleClickCart = () => {
-    router.push("/users/cart");
+  const handleClickCart = async () => {
+    if (selectedColor === "" || selectedSize === "") {
+      setErrorMessage("select a size and color");
+    } else {
+      const cartObject = {
+        ...value,
+        colour: selectedColor,
+        size: selectedSize,
+      };
+      try {
+        const res = await fetch(`https://pdata.onrender.com/cart`, {
+          headers: {
+            "content-type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify(cartObject),
+        });
+        const sent = await res.json();
+        console.log(sent);
+        router.push("/users/cart");
+      } catch (error) {
+        console.log(error, "errors");
+      }
+    }
   };
   return (
     <Flex align="center" justify="center" height="full">
@@ -76,7 +106,11 @@ const View = ({ value }: any) => {
               <HStack align="start" spacing={2}>
                 <Text>Size:</Text>
                 {sizes.map((size) => (
-                  <Radio key={size} value={size}>
+                  <Radio
+                    key={size}
+                    value={size}
+                    onChange={() => handleSizeSelect(size)}
+                  >
                     {size}
                   </Radio>
                 ))}
@@ -115,6 +149,11 @@ const View = ({ value }: any) => {
                 ))}
               </MenuList>
             </Menu>
+            {errorMessage && (
+              <Text color="red.500" mt={4} textAlign="center">
+                {errorMessage}
+              </Text>
+            )}
             <Button onClick={handleClickCart}>ADD TO CART</Button>
           </VStack>
         </Flex>
@@ -143,7 +182,11 @@ const View = ({ value }: any) => {
               <HStack align="start" spacing={2} width="100%">
                 <Text>Size:</Text>
                 {sizes.map((size) => (
-                  <Radio key={size} value={size}>
+                  <Radio
+                    key={size}
+                    value={size}
+                    onChange={() => handleSizeSelect(size)}
+                  >
                     {size}
                   </Radio>
                 ))}
@@ -182,6 +225,11 @@ const View = ({ value }: any) => {
                 ))}
               </MenuList>
             </Menu>
+            {errorMessage && (
+              <Text color="red.500" mt={4} textAlign="center">
+                {errorMessage}
+              </Text>
+            )}
             <Button onClick={handleClickCart} width="100%">
               ADD TO CART
             </Button>
