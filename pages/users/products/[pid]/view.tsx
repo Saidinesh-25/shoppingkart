@@ -1,10 +1,205 @@
-import { Box } from "@chakra-ui/react";
+/* eslint-disable @next/next/no-img-element */
+import {
+  Box,
+  Flex,
+  VStack,
+  Text,
+  Radio,
+  RadioGroup,
+  Select,
+  HStack,
+  Button,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+} from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
-const View = () => {
+const View = ({ value }: any) => {
+  console.log(value, "what is in the value");
+  const sizes = ["S", "M", "L", "XL", "XXL", "XXXL"];
+  const colors = [
+    "Red",
+    "Blue",
+    "Green",
+    "Yellow",
+    "Orange",
+    "Purple",
+    "Pink",
+    "Teal",
+    "Cyan",
+    "Lime",
+    "Indigo",
+    "Brown",
+    "Gray",
+    "Black",
+    "White",
+  ];
+  const router = useRouter();
+  const [selectedColor, setSelectedColor] = useState<string>("");
+
+  const handleColorSelect = (color: string) => {
+    setSelectedColor(color);
+  };
+
+  const handleClickCart = () => {
+    router.push("/users/cart");
+  };
   return (
-    <Box>
-      <Box>View page lol</Box>
-    </Box>
+    <Flex align="center" justify="center" height="full">
+      <Box
+        width="1100px"
+        overflow="hidden"
+        display={{ lg: "inline-block", base: "none" }}
+      >
+        <Flex>
+          <Box w={{ lg: "25%", md: "30%", sm: "50%" }}>
+            <img
+              src={value.images}
+              alt="Product Image"
+              width="100%"
+              height="100%"
+            />
+          </Box>
+          <VStack align="start" spacing={7} mx="15%">
+            <Text fontSize="xl" fontWeight="extrabold">
+              {value.title}
+            </Text>
+            <Text fontSize="lg" fontWeight="bold">
+              Price: {value.price}
+            </Text>
+            <Text fontSize="md">Category: {value.category}</Text>
+
+            <RadioGroup colorScheme="blue">
+              <HStack align="start" spacing={2}>
+                <Text>Size:</Text>
+                {sizes.map((size) => (
+                  <Radio key={size} value={size}>
+                    {size}
+                  </Radio>
+                ))}
+              </HStack>
+            </RadioGroup>
+            <Menu>
+              <MenuButton as={Button}>
+                {selectedColor ? (
+                  <Box
+                    width="20px"
+                    height="20px"
+                    borderRadius="50%"
+                    bg={selectedColor.toLowerCase()}
+                    marginRight="10px"
+                    display="inline-block"
+                  />
+                ) : null}
+                {selectedColor || "Select a color"}
+              </MenuButton>
+              <MenuList maxHeight="150px" overflowY="auto">
+                {colors.map((color) => (
+                  <MenuItem
+                    key={color}
+                    onClick={() => handleColorSelect(color)}
+                  >
+                    <Box
+                      width="20px"
+                      height="20px"
+                      borderRadius="50%"
+                      bg={color.toLowerCase()}
+                      marginRight="10px"
+                      display="inline-block"
+                    />
+                    {color}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </Menu>
+            <Button onClick={handleClickCart}>ADD TO CART</Button>
+          </VStack>
+        </Flex>
+      </Box>
+      <Box
+        width="100%"
+        overflow="hidden"
+        display={{ base: "block", lg: "none" }}
+      >
+        <Flex direction="column" align="center" mx="4">
+          <img
+            src={value.images}
+            alt="Product Image"
+            width="30%"
+            height="auto"
+          />
+          <VStack align="start" spacing={4} mt={4} width="100%">
+            <Text fontSize="xl" fontWeight="extrabold">
+              {value.title}
+            </Text>
+            <Text fontSize="lg" fontWeight="bold">
+              Price: {value.price}
+            </Text>
+            <Text fontSize="md">Category: {value.category}</Text>
+            <RadioGroup colorScheme="blue" width="100%">
+              <HStack align="start" spacing={2} width="100%">
+                <Text>Size:</Text>
+                {sizes.map((size) => (
+                  <Radio key={size} value={size}>
+                    {size}
+                  </Radio>
+                ))}
+              </HStack>
+            </RadioGroup>
+            <Menu>
+              <MenuButton as={Button}>
+                {selectedColor ? (
+                  <Box
+                    width="20px"
+                    height="20px"
+                    borderRadius="50%"
+                    bg={selectedColor.toLowerCase()}
+                    marginRight="10px"
+                    display="inline-block"
+                  />
+                ) : null}
+                {selectedColor || "Select a color"}
+              </MenuButton>
+              <MenuList maxHeight="150px" overflowY="auto">
+                {colors.map((color) => (
+                  <MenuItem
+                    key={color}
+                    onClick={() => handleColorSelect(color)}
+                  >
+                    <Box
+                      width="20px"
+                      height="20px"
+                      borderRadius="50%"
+                      bg={color.toLowerCase()}
+                      marginRight="10px"
+                      display="inline-block"
+                    />
+                    {color}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </Menu>
+            <Button onClick={handleClickCart} width="100%">
+              ADD TO CART
+            </Button>
+          </VStack>
+        </Flex>
+      </Box>
+    </Flex>
   );
 };
 export default View;
+export async function getServerSideProps(context: any) {
+  const { pid } = context.query;
+  const res = await fetch(`https://pdata.onrender.com/products/${pid}`);
+  const value = await res.json();
+  console.log(value, "viewpagefromserver");
+  return {
+    props: {
+      value: value,
+    },
+  };
+}

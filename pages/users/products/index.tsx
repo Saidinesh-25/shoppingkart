@@ -8,8 +8,7 @@ import {
   Td,
   Image,
   Button,
-  useBreakpointValue,
-  useMediaQuery,
+  Text,
   Center,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
@@ -56,7 +55,7 @@ const Listing = ({ value }: any) => {
     <Box height="auto" overflowX={"auto"}>
       <Center>
         <Box
-          w={{ sm: "100%", lg: "70%" }}
+          w={{ sm: "100%", lg: "70%", base: "100%" }}
           h="40px"
           bg="rosybrown"
           textAlign={"center"}
@@ -69,19 +68,31 @@ const Listing = ({ value }: any) => {
         </Box>
       </Center>
       <Center>
-        <Table w={{ sm: "100%", lg: "70%" }} variant="simple">
+        <Table w={{ sm: "100%", lg: "70%", base: "100%" }} variant="simple">
           <Thead>
             <Tr>
-              <Th w={{ sm: "20%", lg: "8%" }} textAlign={"center"}>
+              <Th
+                w={{ sm: "20%", lg: "8%", base: "100%" }}
+                textAlign={"center"}
+              >
                 Image
               </Th>
-              <Th w={{ sm: "30%", lg: "10%" }} textAlign={"center"}>
+              <Th
+                w={{ sm: "30%", lg: "10%", base: "100%" }}
+                textAlign={"center"}
+              >
                 Title
               </Th>
-              <Th w={{ sm: "30%", lg: "5%" }} textAlign={"center"}>
+              <Th
+                w={{ sm: "30%", lg: "5%", base: "100%" }}
+                textAlign={"center"}
+              >
                 Price
               </Th>
-              <Th w={{ sm: "10%", lg: "3%" }} textAlign={"center"}>
+              <Th
+                w={{ sm: "10%", lg: "3%", base: "100%" }}
+                textAlign={"center"}
+              >
                 Actions
               </Th>
             </Tr>
@@ -101,7 +112,7 @@ const Listing = ({ value }: any) => {
                   textAlign={"start"}
                   w="auto"
                   padding="8px"
-                  fontSize={"18px"}
+                  fontSize={{ lg: "18px", sm: "14px", base: "18px" }}
                   fontWeight={500}
                 >
                   {item.title}
@@ -110,8 +121,8 @@ const Listing = ({ value }: any) => {
                   textAlign={"center"}
                   w="auto"
                   padding="8px"
-                  fontSize={"18px"}
-                  fontWeight={500}
+                  fontWeight={{ lg: 500, sm: 400, base: 400 }}
+                  fontSize={{ lg: "18px", sm: "14px", base: "12px" }}
                 >
                   {item.price}
                 </Td>
@@ -119,9 +130,12 @@ const Listing = ({ value }: any) => {
                 <Td textAlign={"center"}>
                   <Button
                     colorScheme="blue"
+                    w={"fit-content"}
                     onClick={() => handleRoute(item.id)}
                   >
-                    ADD TO CART
+                    <Text fontSize={{ base: "5px", md: "7px", lg: "16px" }}>
+                      ADD TO CART
+                    </Text>
                   </Button>
                 </Td>
               </Tr>
