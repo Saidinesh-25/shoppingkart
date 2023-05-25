@@ -15,8 +15,7 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useContext, useId, useState } from "react";
-import { AppContext } from "../../../_app";
+import { useState } from "react";
 
 const View = ({ value, totalItemsInCart }: any) => {
   console.log(value, "what is in the value");
@@ -43,7 +42,6 @@ const View = ({ value, totalItemsInCart }: any) => {
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const { cartItems, setCartItems }: any = useContext(AppContext);
 
   console.log(selectedSize, "hola");
 
@@ -64,14 +62,23 @@ const View = ({ value, totalItemsInCart }: any) => {
         ...value,
         colour: selectedColor,
         size: selectedSize,
-        // quantity: quantity,
       };
-      if (cartItems) {
-        setCartItems([...cartItems, cartObject]);
-      } else {
-        setCartItems([cartObject]);
+
+      try {
+        const response = await fetch(`https://pdata.onrender.com/cart`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(cartObject),
+        });
+        const success = await response.json();
+        console.log(success, "sent successfully");
+
+        router.push("/users/cart");
+      } catch (error) {
+        console.log(error, "error occured");
       }
-      router.push("/users/cart");
     }
   };
   return (
@@ -242,10 +249,14 @@ export async function getServerSideProps(context: any) {
   const res = await fetch(`https://pdata.onrender.com/products/${pid}`);
   const value = await res.json();
   console.log(value, "viewpagefromserver");
+  const res2 = await fetch(`https://pdata.onrender.com/cart`);
+  const totalItemsInCart = await res2.json();
+  console.log(totalItemsInCart, "view");
 
   return {
     props: {
       value: value,
+      totalItemsInCart: totalItemsInCart,
     },
   };
 }

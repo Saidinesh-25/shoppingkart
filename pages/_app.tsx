@@ -7,8 +7,6 @@ import { createContext, useState } from "react";
 interface AppContextProps {
   categoryState: string;
   setCategoryState: React.Dispatch<React.SetStateAction<string>>;
-  cartItems: any;
-  setCartItems: any;
 }
 
 // const initialAppContext: AppContextProps = {
@@ -20,12 +18,10 @@ export const AppContext = createContext<AppContextProps | null>(null);
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [categoryState, setCategoryState] = useState("Women");
-  const [cartItems, setCartItems] = useState([]);
+
   return (
     <ChakraProvider>
-      <AppContext.Provider
-        value={{ categoryState, setCategoryState, cartItems, setCartItems }}
-      >
+      <AppContext.Provider value={{ categoryState, setCategoryState }}>
         <Layout>
           {" "}
           <Component {...pageProps} />
