@@ -18,7 +18,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 const View = ({ value, totalItemsInCart }: any) => {
-  console.log(value, "what is in the value");
+  console.log(typeof value.id, "what is in the value");
   console.log(totalItemsInCart, "kart");
   const sizes = ["S", "M", "L", "XL", "XXL", "XXXL"];
   const colors = [
