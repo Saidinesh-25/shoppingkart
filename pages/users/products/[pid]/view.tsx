@@ -15,10 +15,12 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useContext, useId, useState } from "react";
+import { AppContext } from "../../../_app";
 
-const View = ({ value }: any) => {
+const View = ({ value, totalItemsInCart }: any) => {
   console.log(value, "what is in the value");
+  console.log(totalItemsInCart, "kart");
   const sizes = ["S", "M", "L", "XL", "XXL", "XXXL"];
   const colors = [
     "Red",
@@ -41,6 +43,8 @@ const View = ({ value }: any) => {
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const { cartItems, setCartItems }: any = useContext(AppContext);
+
   console.log(selectedSize, "hola");
 
   const handleColorSelect = (color: string) => {
@@ -60,21 +64,14 @@ const View = ({ value }: any) => {
         ...value,
         colour: selectedColor,
         size: selectedSize,
+        // quantity: quantity,
       };
-      try {
-        const res = await fetch(`https://pdata.onrender.com/cart`, {
-          headers: {
-            "content-type": "application/json",
-          },
-          method: "POST",
-          body: JSON.stringify(cartObject),
-        });
-        const sent = await res.json();
-        console.log(sent);
-        router.push("/users/cart");
-      } catch (error) {
-        console.log(error, "errors");
+      if (cartItems) {
+        setCartItems([...cartItems, cartObject]);
+      } else {
+        setCartItems([cartObject]);
       }
+      router.push("/users/cart");
     }
   };
   return (
@@ -245,6 +242,7 @@ export async function getServerSideProps(context: any) {
   const res = await fetch(`https://pdata.onrender.com/products/${pid}`);
   const value = await res.json();
   console.log(value, "viewpagefromserver");
+
   return {
     props: {
       value: value,

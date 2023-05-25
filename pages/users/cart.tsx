@@ -1,18 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AppContext } from "../_app";
 
 const Cart = ({ value }: any) => {
-  console.log("cartpagedata", value);
+  const { cartItems, setCartItems }: any = useContext(AppContext);
+  console.log(cartItems, "whatsincart");
+
   return <div>Cart</div>;
 };
 
 export default Cart;
-export async function getServerSideProps() {
-  const res = await fetch(`https://pdata.onrender.com/cart`);
-  const value = await res.json();
-  console.log(value, "cartpagefromserver");
-  return {
-    props: {
-      value: value,
-    },
-  };
-}

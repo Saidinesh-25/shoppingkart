@@ -7,20 +7,25 @@ import { createContext, useState } from "react";
 interface AppContextProps {
   categoryState: string;
   setCategoryState: React.Dispatch<React.SetStateAction<string>>;
+  cartItems: any;
+  setCartItems: any;
 }
 
-const initialAppContext: AppContextProps = {
-  categoryState: "", // Set your initial category state value here
-  setCategoryState: () => {}, // Set an empty function for now
-};
+// const initialAppContext: AppContextProps = {
+//   categoryState: "", // Set your initial category state value here
+//   setCategoryState: () => {}, // Set an empty function for now
+// };
 
 export const AppContext = createContext<AppContextProps | null>(null);
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [categoryState, setCategoryState] = useState("Women");
+  const [cartItems, setCartItems] = useState([]);
   return (
     <ChakraProvider>
-      <AppContext.Provider value={{ categoryState, setCategoryState }}>
+      <AppContext.Provider
+        value={{ categoryState, setCategoryState, cartItems, setCartItems }}
+      >
         <Layout>
           {" "}
           <Component {...pageProps} />
