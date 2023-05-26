@@ -10,6 +10,7 @@ import {
   Center,
   Flex,
   Spacer,
+  Input,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
@@ -18,6 +19,7 @@ const Cart = ({ value }: any) => {
   const router = useRouter();
 
   const [cartItems, setCartItems] = useState(value);
+  const [couponCode, setCouponCode] = useState<string>("");
   const defaultTotal = cartItems.reduce(
     (acc: any, obj: any) => acc + Number(obj.price),
     0
@@ -25,6 +27,8 @@ const Cart = ({ value }: any) => {
   const idsForDelete = value.map((item: any) => item.id);
 
   const [total, setTotal] = useState(defaultTotal);
+  const shipping = 100;
+  let finalTotal = total + shipping;
 
   console.log(cartItems, "final");
 
@@ -80,19 +84,22 @@ const Cart = ({ value }: any) => {
     } catch (error) {
       console.log(error);
     }
-    for (let i = 0; i < idsForDelete.length; i++) {
-      const id = idsForDelete[i];
-      try {
-        const res2 = await fetch(`https://pdata.onrender.com/cart/${id}`, {
-          method: "DELETE",
-        });
-        const data = await res2.json();
-        console.log(data);
-      } catch (err) {
-        console.log(err);
-      }
-    }
+    // for (let i = 0; i < idsForDelete.length; i++) {
+    //   const id = idsForDelete[i];
+    //   try {
+    //     const res2 = await fetch(`https://pdata.onrender.com/cart/${id}`, {
+    //       method: "DELETE",
+    //     });
+    //     const data = await res2.json();
+    //     console.log(data);
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // }
     router.push("/users/payments");
+  };
+  const handleCouponCode = (e: any) => {
+    setCouponCode(e.target.value);
   };
 
   return (
@@ -158,12 +165,39 @@ const Cart = ({ value }: any) => {
             </HStack>
           </Box>
         ))}
-        <Box
-          borderTop={"1px dotted black"}
-          w={{ sm: "100%", lg: "70%", base: "100%" }}
-        >
-          <Box>Total: {total}</Box>
-          <Box>offers: </Box>
+
+        <Box w={{ sm: "50%", lg: "70%", base: "20%" }} m="auto">
+          <Box display="flex" mt="3" w="100%">
+            <HStack justifyContent="space-between" w="100%">
+              <Input
+                placeholder="Coupon code"
+                type="text"
+                border="1px solid gray"
+                value={couponCode}
+                onChange={handleCouponCode}
+              />
+              <Button>Apply</Button>
+            </HStack>
+          </Box>
+          <Box>
+            <HStack justifyContent="space-between">
+              <Box textAlign={{ base: "left", lg: "right" }}>Subtotal:</Box>
+              <Box textAlign={{ base: "left", lg: "right" }}>{total}</Box>
+            </HStack>
+
+            <HStack justifyContent="space-between">
+              <Box textAlign={{ base: "left", lg: "right" }}>Shipping:</Box>
+              <Box textAlign={{ base: "left", lg: "right" }}>{shipping}</Box>
+            </HStack>
+            <HStack
+              justifyContent="space-between"
+              borderTop="1px dotted black"
+              mt="4"
+            >
+              <Box textAlign={{ base: "left", lg: "right" }}>Total</Box>
+              <Box textAlign={{ base: "left", lg: "right" }}>{finalTotal}</Box>
+            </HStack>
+          </Box>
         </Box>
       </VStack>
       <Box>
