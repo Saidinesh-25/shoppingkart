@@ -11,6 +11,7 @@ import {
   Flex,
   Spacer,
   Input,
+  calc,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
@@ -103,7 +104,12 @@ const Cart = ({ value }: any) => {
   };
 
   return (
-    <Box display="flex" flexDirection="column" alignItems={"center"}>
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems={"center"}
+      overflowX={"auto"}
+    >
       <Box
         w={{ sm: "100%", lg: "70%", base: "100%" }}
         h="40px"
@@ -116,90 +122,158 @@ const Cart = ({ value }: any) => {
       >
         My Cart
       </Box>
-      <VStack mt={10} spacing={10}>
-        {cartItems.map((item: any, index: number) => (
+      <VStack
+        mt={10}
+        spacing={10}
+        w={{ sm: "90%", lg: "80%", base: "fit-content" }}
+      >
+        {cartItems.map((item: any) => (
           <Box
             display="flex"
             flexDirection="column"
             borderTop={"1px solid #D3D3D3"}
             key={item.id}
             p="2%"
+            w={{ sm: "90%", lg: "80%", base: "100%" }}
           >
-            <HStack gridGap={10}>
+            <HStack gridGap={{ base: 2, sm: 5, lg: 10 }}>
               {" "}
-              <Box w="250px" h="250px" overflow={"hidden"}>
-                <img src={item.images} width="100%" alt="image" />
+              <Box
+                w={{ sm: "100px", lg: "150px", base: "100px" }}
+                border={"1px solid gray"}
+                overflow={"hidden"}
+                h={{ sm: "100px", lg: "150px", base: "100px" }}
+              >
+                <img src={item.images} width="100%" height="auto" alt="image" />
               </Box>
-              <Box w="550px" h="250px">
-                <VStack alignItems={"self-start"} px={5}>
-                  <Box>{item.title}</Box>
-                  <Box>{item.price}</Box>
-                  <Box>{item.category}</Box>
-                  <Box>{item.size}</Box>
-                  <Box>{item.colour}</Box>
+              <Box flex={{ base: 1, md: 2 }}>
+                <VStack
+                  w={{ sm: "90%", lg: "80%", base: "90%" }}
+                  alignItems={"start"}
+                  px={2}
+                >
+                  <Box
+                    overflowX={"clip"}
+                    fontSize={{ sm: "14px", lg: "16px", base: "10px" }}
+                    fontWeight={800}
+                    textOverflow={"ellipsis"}
+                    w={{ base: "100px", sm: "100%", lg: "150%" }}
+                    // h={{ base: "65px" }}
+                  >
+                    {item.title}
+                  </Box>
+                  <Box
+                    fontWeight={700}
+                    fontSize={{ sm: "14px", lg: "16px", base: "10px" }}
+                    overflowX={"clip"}
+                    textOverflow={"ellipsis"}
+                    display={"flex"}
+                  >
+                    Price: <Text fontWeight={500}>₹{item.price}</Text>
+                  </Box>
+                  <Box
+                    display={{ base: "none", sm: "none", lg: "flex" }}
+                    fontSize={{ sm: "14px", lg: "16px", base: "10px" }}
+                    fontWeight={700}
+                  >
+                    Category: <Text fontWeight={500}>{item.category}</Text>
+                  </Box>
+                  <Box
+                    fontSize={{ sm: "14px", lg: "16px", base: "10px" }}
+                    fontWeight={700}
+                    display={"flex"}
+                  >
+                    Size: <Text fontWeight={500}>{item.size}</Text>
+                  </Box>
+                  <Box
+                    display={{ base: "none", sm: "flex", lg: "flex" }}
+                    fontSize={{ sm: "14px", lg: "16px", base: "10px" }}
+                    fontWeight={700}
+                  >
+                    Colour: <Text fontWeight={500}>{item.colour}</Text>
+                  </Box>
                 </VStack>
               </Box>
-              <Box>
+              <Box alignSelf={"flex-end"}>
                 <Flex align="center">
-                  <Button
-                    size="sm"
-                    rounded="full"
-                    marginRight={2}
+                  <Box
+                    w="20px"
+                    bg="blue.100"
+                    h="20px"
+                    borderRadius={"50%"}
+                    cursor={"pointer"}
+                    justifyContent="center"
+                    display="flex"
+                    alignItems="center"
                     onClick={() => decreaseCount(item.id, item.count, item)}
                   >
-                    -
-                  </Button>
-                  <Text fontSize="xl" fontWeight="bold" marginRight={2}>
+                    <Text fontSize={{ sm: "14px", lg: "16px", base: "10px" }}>
+                      -
+                    </Text>
+                  </Box>
+                  <Text
+                    fontSize={{ sm: "14px", lg: "16px", base: "10px" }}
+                    fontWeight="bold"
+                    marginRight={0}
+                    px={6}
+                  >
                     {item.count}
                   </Text>
-                  <Button
-                    size="sm"
-                    rounded="full"
-                    marginLeft={2}
+                  <Box
+                    w="20px"
+                    bg="blue.100"
+                    h="20px"
+                    borderRadius={"50%"}
+                    cursor={"pointer"}
+                    justifyContent="center"
+                    display="flex"
+                    alignItems="center"
                     onClick={() => increaseCount(item.id, item.count)}
                   >
-                    +
-                  </Button>
+                    <Text fontSize={{ sm: "14px", lg: "16px", base: "10px" }}>
+                      {" "}
+                      +
+                    </Text>
+                  </Box>
                 </Flex>
               </Box>
             </HStack>
           </Box>
         ))}
-
-        <Box w={{ sm: "50%", lg: "70%", base: "20%" }} m="auto">
-          <Box display="flex" mt="3" w="100%">
-            <HStack justifyContent="space-between" w="100%">
-              <Input
-                placeholder="Coupon code"
-                type="text"
-                border="1px solid gray"
-                value={couponCode}
-                onChange={handleCouponCode}
-              />
-              <Button>Apply</Button>
-            </HStack>
-          </Box>
-          <Box>
-            <HStack justifyContent="space-between">
-              <Box textAlign={{ base: "left", lg: "right" }}>Subtotal:</Box>
-              <Box textAlign={{ base: "left", lg: "right" }}>{total}</Box>
-            </HStack>
-
-            <HStack justifyContent="space-between">
-              <Box textAlign={{ base: "left", lg: "right" }}>Shipping:</Box>
-              <Box textAlign={{ base: "left", lg: "right" }}>{shipping}</Box>
-            </HStack>
-            <HStack
-              justifyContent="space-between"
-              borderTop="1px dotted black"
-              mt="4"
-            >
-              <Box textAlign={{ base: "left", lg: "right" }}>Total</Box>
-              <Box textAlign={{ base: "left", lg: "right" }}>{finalTotal}</Box>
-            </HStack>
-          </Box>
-        </Box>
       </VStack>
+      <Box w={{ sm: "50%", lg: "70%", base: "20%" }} mt="50px">
+        <Box display="flex" mt="3" w="100%">
+          <HStack justifyContent="space-between" w="100%">
+            <Input
+              placeholder="Coupon code"
+              type="text"
+              border="1px solid gray"
+              value={couponCode}
+              onChange={handleCouponCode}
+            />
+            <Button>Apply</Button>
+          </HStack>
+        </Box>
+        <Box>
+          <HStack justifyContent="space-between">
+            <Box textAlign={{ base: "left", lg: "right" }}>Subtotal:</Box>
+            <Box textAlign={{ base: "left", lg: "right" }}>₹{total}</Box>
+          </HStack>
+
+          <HStack justifyContent="space-between">
+            <Box textAlign={{ base: "left", lg: "right" }}>Shipping:</Box>
+            <Box textAlign={{ base: "left", lg: "right" }}>₹{shipping}</Box>
+          </HStack>
+          <HStack
+            justifyContent="space-between"
+            borderTop="1px dotted black"
+            mt="4"
+          >
+            <Box textAlign={{ base: "left", lg: "right" }}>Total</Box>
+            <Box textAlign={{ base: "left", lg: "right" }}>₹{finalTotal}</Box>
+          </HStack>
+        </Box>
+      </Box>
       <Box>
         <Button onClick={handleCheckout}>Checkout</Button>
       </Box>
