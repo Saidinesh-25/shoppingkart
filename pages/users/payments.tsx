@@ -51,7 +51,7 @@ const Payments = () => {
   return (
     <Box
       h="full"
-      bg="red.100"
+     
       display={"flex"}
       flexDir={"column"}
       alignItems={"center"}
@@ -61,7 +61,7 @@ const Payments = () => {
         display={"flex"}
         flexDir={"column"}
         p="5"
-        bg="green.100"
+       
         w={{ base: "100%", sm: "100%", md: "60%", lg: "60%" }}
       >
         <Box>Delivery Address</Box>
@@ -123,7 +123,7 @@ const Payments = () => {
       <Box
         w={{ base: "100%", sm: "100%", md: "60%", lg: "60%" }}
         h="350px"
-        bg="blue.100"
+        
         display={"flex"}
         flexDir={"row"}
         p="5"
