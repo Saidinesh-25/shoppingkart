@@ -72,19 +72,19 @@ const Cart = ({ value }: any) => {
   const handleCheckout = async () => {
     const latestOrders = { cartItems };
 
-    try {
-      const res = await fetch(`https://pdata.onrender.com/orders`, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(latestOrders),
-      });
-      const value = await res.json();
-      console.log(value);
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   const res = await fetch(`https://pdata.onrender.com/orders`, {
+    //     method: "POST",
+    //     headers: {
+    //       "content-type": "application/json",
+    //     },
+    //     body: JSON.stringify(latestOrders),
+    //   });
+    //   const value = await res.json();
+    //   console.log(value);
+    // } catch (error) {
+    //   console.log(error);
+    // }
     // for (let i = 0; i < idsForDelete.length; i++) {
     //   const id = idsForDelete[i];
     //   try {
@@ -109,24 +109,26 @@ const Cart = ({ value }: any) => {
       flexDirection="column"
       alignItems={"center"}
       overflowX={"auto"}
+      bg="#FAFBF4"
     >
-      <Box
-        w={{ sm: "100%", lg: "70%", base: "100%" }}
-        h="40px"
-        bg="rosybrown"
-        textAlign="center"
-        justifyItems="center"
-        alignItems="center"
-        alignContent="center"
-        pt="6px"
-      >
-        My Cart
-      </Box>
       <VStack
         mt={10}
         spacing={10}
         w={{ sm: "90%", lg: "80%", base: "fit-content" }}
+        bg={"white"}
       >
+        <Box
+          w="full"
+          h="40px"
+          bg="#FAFBF4"
+          textAlign="center"
+          justifyItems="center"
+          alignItems="center"
+          alignContent="center"
+          pt="6px"
+        >
+          My Cart
+        </Box>
         {cartItems.map((item: any) => (
           <Box
             display="flex"
@@ -241,7 +243,14 @@ const Cart = ({ value }: any) => {
           </Box>
         ))}
       </VStack>
-      <Box w={{ sm: "50%", lg: "70%", base: "20%" }} mt="50px">
+
+      <Box
+        w={{ sm: "60%", lg: "30%", base: "calc(100%-30px)" }}
+        bg="#D9E4EC"
+        mt="50px"
+        p={10}
+        borderRadius={"10%"}
+      >
         <Box display="flex" mt="3" w="100%">
           <HStack justifyContent="space-between" w="100%">
             <Input
@@ -256,26 +265,64 @@ const Cart = ({ value }: any) => {
         </Box>
         <Box>
           <HStack justifyContent="space-between">
-            <Box textAlign={{ base: "left", lg: "right" }}>Subtotal:</Box>
-            <Box textAlign={{ base: "left", lg: "right" }}>₹{total}</Box>
+            <Box
+              textAlign={{ base: "left", lg: "right" }}
+              fontSize={{ sm: "14px", lg: "16px", base: "10px" }}
+              fontWeight={800}
+            >
+              Subtotal:
+            </Box>
+            <Box
+              textAlign={{ base: "left", lg: "right" }}
+              fontSize={{ sm: "14px", lg: "16px", base: "10px" }}
+              fontWeight={500}
+            >
+              ₹{total}
+            </Box>
           </HStack>
 
           <HStack justifyContent="space-between">
-            <Box textAlign={{ base: "left", lg: "right" }}>Shipping:</Box>
-            <Box textAlign={{ base: "left", lg: "right" }}>₹{shipping}</Box>
+            <Box
+              textAlign={{ base: "left", lg: "right" }}
+              fontSize={{ sm: "14px", lg: "16px", base: "10px" }}
+              fontWeight={800}
+            >
+              Shipping:
+            </Box>
+            <Box
+              textAlign={{ base: "left", lg: "right" }}
+              fontSize={{ sm: "14px", lg: "16px", base: "10px" }}
+              fontWeight={500}
+            >
+              ₹{shipping}
+            </Box>
           </HStack>
           <HStack
             justifyContent="space-between"
             borderTop="1px dotted black"
             mt="4"
           >
-            <Box textAlign={{ base: "left", lg: "right" }}>Total</Box>
-            <Box textAlign={{ base: "left", lg: "right" }}>₹{finalTotal}</Box>
+            <Box
+              textAlign={{ base: "left", lg: "right" }}
+              fontSize={{ sm: "14px", lg: "16px", base: "10px" }}
+              fontWeight={900}
+            >
+              Total
+            </Box>
+            <Box
+              textAlign={{ base: "left", lg: "right" }}
+              fontSize={{ sm: "14px", lg: "16px", base: "10px" }}
+              fontWeight={500}
+            >
+              ₹{finalTotal}
+            </Box>
           </HStack>
+          <Box mt={3}>
+            <Button w="full" onClick={handleCheckout}>
+              Checkout
+            </Button>
+          </Box>
         </Box>
-      </Box>
-      <Box>
-        <Button onClick={handleCheckout}>Checkout</Button>
       </Box>
     </Box>
   );
