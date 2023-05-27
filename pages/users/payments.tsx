@@ -1,30 +1,21 @@
 import {
   Box,
   Button,
+  Flex,
   HStack,
   Input,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
   Text,
   VStack,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
 type paymentInfo = {
   address: string;
   zip: number;
   phone: number;
-
-  sixteendigitnumber: number;
-  date: number;
+  sixteenDigitNumber: number;
+  date: string;
   name: string;
   cvv: number;
-
-  upi: string;
-  cod: boolean;
 };
 
 const Payments = () => {
@@ -32,185 +23,156 @@ const Payments = () => {
     address: "",
     zip: 0,
     phone: 0,
-    sixteendigitnumber: 0,
-    date: 0,
+    sixteenDigitNumber: 0,
+    date: "",
     name: "",
     cvv: 0,
-    upi: "",
-    cod: false,
   });
   const handleData = (e: any) => {
     const { name, value } = e.target;
-    const updatedPayment: any = { ...paymentInfo };
-
-    updatedPayment[name] = value;
-
-    setPaymentInfo(updatedPayment);
-    console.log(updatedPayment, "firstconsole");
+    setPaymentInfo((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+    console.log(paymentInfo);
   };
+  const handlePayment = (e: any) => {};
+
   return (
     <Box
       h="full"
-     
-      display={"flex"}
-      flexDir={"column"}
-      alignItems={"center"}
-      justifyItems={"center"}
+      display="flex"
+      flexDir="column"
+      alignItems="center"
+      justifyContent="center"
     >
+      <Box p="5" w={{ base: "100%", md: "60%", lg: "40%" }}>
+        <Box fontSize="xl" fontWeight="bold" mb="4">
+          Delivery Address
+        </Box>
+        <Input
+          type="text"
+          name="address"
+          value={paymentInfo.address}
+          borderColor="gray.300"
+          onChange={handleData}
+          mb="4"
+          placeholder="Enter your address"
+        />
+      </Box>
+
       <Box
-        display={"flex"}
-        flexDir={"column"}
         p="5"
-       
-        w={{ base: "100%", sm: "100%", md: "60%", lg: "60%" }}
+        w={{ base: "100%", md: "60%", lg: "40%" }}
+        display="flex"
+        flexDir="row"
       >
-        <Box>Delivery Address</Box>
-        <Box>
+        <Box w="50%" mr="2">
+          <Box fontSize="xl" fontWeight="bold" mb="4">
+            Phone Number
+          </Box>
           <Input
-            type="text"
-            name="address"
-            value={paymentInfo.address}
-            w={{ base: "100%", sm: "100%", md: "60%", lg: "40%" }}
-            borderColor={"1px solid gray"}
+            type="number"
+            name="phone"
+            value={paymentInfo.phone === 0 ? "" : paymentInfo.phone}
+            borderColor="gray.300"
             onChange={handleData}
-          ></Input>
+            placeholder="Enter phone number"
+          />
+        </Box>
+
+        <Box w="50%" ml="2">
+          <Box fontSize="xl" fontWeight="bold" mb="4">
+            ZIP Code
+          </Box>
+          <Input
+            type="number"
+            name="zip"
+            value={paymentInfo.zip === 0 ? "" : paymentInfo.zip}
+            borderColor="gray.300"
+            onChange={handleData}
+            placeholder="Enter ZIP code"
+          />
         </Box>
       </Box>
-      <Box
-        w={{ base: "100%", sm: "100%", md: "60%", lg: "60%" }}
-        h="auto"
-        bg="white"
-        display={"flex"}
-        flexDir={"row"}
+
+      <Box p="5" w={{ base: "100%", md: "60%", lg: "40%" }}>
+        <Box fontSize="xl" fontWeight="bold" mb="4">
+          Payment Details
+        </Box>
+        <Box mb="4" display="flex" flexDir="row">
+          <Box w="50%" mr="2">
+            <Box fontSize="md" fontWeight="bold" mb="2">
+              Card Number
+            </Box>
+            <Input
+              type="number"
+              name="sixteenDigitNumber"
+              value={
+                paymentInfo.sixteenDigitNumber === 0
+                  ? ""
+                  : paymentInfo.sixteenDigitNumber
+              }
+              borderColor="gray.300"
+              onChange={handleData}
+              placeholder="Enter 16 digit card number"
+            />
+          </Box>
+
+          <Box w="50%" ml="2">
+            <Box fontSize="md" fontWeight="bold" mb="2">
+              Expiry Date
+            </Box>
+            <Input
+              type="text"
+              name="date"
+              value={paymentInfo.date}
+              borderColor="gray.300"
+              onChange={handleData}
+              placeholder="MM/YY"
+            />
+          </Box>
+        </Box>
+
+        <Box mb="4" display="flex" flexDir="row">
+          <Box w="50%" mr="2">
+            <Box fontSize="md" fontWeight="bold" mb="2">
+              Card Holder Name
+            </Box>
+            <Input
+              type="text"
+              name="name"
+              value={paymentInfo.name}
+              borderColor="gray.300"
+              onChange={handleData}
+              placeholder="Enter card holder name"
+            />
+          </Box>
+
+          <Box w="50%" ml="2">
+            <Box fontSize="md" fontWeight="bold" mb="2">
+              CVV
+            </Box>
+            <Input
+              type="text"
+              name="cvv"
+              value={paymentInfo.cvv === 0 ? "" : paymentInfo.cvv}
+              borderColor="gray.300"
+              onChange={handleData}
+              placeholder="Enter CVV"
+            />
+          </Box>
+        </Box>
+      </Box>
+
+      <Flex
         p="5"
+        w={{ base: "100%", md: "60%", lg: "40%" }}
+        justifyContent="space-between"
       >
-        <Box
-          w={{ base: "100%", sm: "100%", md: "60%", lg: "60%" }}
-          display={"flex"}
-          flexDir={"column"}
-        >
-          <HStack>
-            <VStack alignItems={"flex-start"}>
-              <Box>ZIP Code</Box>
-              <Box>
-                <Input
-                  type="text"
-                  name="zip"
-                  value={paymentInfo.zip}
-                  w="100%"
-                  borderColor={"1px solid gray"}
-                  onChange={handleData}
-                ></Input>
-              </Box>
-            </VStack>
-            <VStack alignItems={"flex-start"}>
-              <Text>Phone Number</Text>
-              <Box>
-                <Input
-                  name="phone"
-                  value={paymentInfo.phone}
-                  type="text"
-                  w="100%"
-                  borderColor={"1px solid gray"}
-                  onChange={handleData}
-                ></Input>
-              </Box>
-            </VStack>
-          </HStack>
-        </Box>
-      </Box>
-
-      <Box
-        w={{ base: "100%", sm: "100%", md: "60%", lg: "60%" }}
-        h="350px"
-        
-        display={"flex"}
-        flexDir={"row"}
-        p="5"
-      >
-        <Box
-          w={{ base: "100%", sm: "100%", md: "60%", lg: "60%" }}
-          display={"flex"}
-          flexDir={"column"}
-          border={"1px solid red"}
-        >
-          <Tabs variant="enclosed">
-            <TabList>
-              <Tab>Credit Card</Tab>
-              <Tab>UPI</Tab>
-              <Tab>COD</Tab>
-            </TabList>
-
-            <TabPanels>
-              <TabPanel>
-                <Box>CREDIT CARD</Box>
-                <HStack>
-                  <Input
-                    type="text"
-                    name="sixteendigitnumber"
-                    value={paymentInfo.sixteendigitnumber}
-                    w={{ base: "100%", sm: "100%", md: "60%", lg: "40%" }}
-                    placeholder="16 digit number"
-                    borderColor={"1px solid gray"}
-                    onChange={handleData}
-                  ></Input>
-
-                  <Box w="15px"></Box>
-
-                  <Input
-                    type="text"
-                    w={{ base: "50%", sm: "50%", md: "30%", lg: "20%" }}
-                    placeholder="MM/YY"
-                    borderColor={"1px solid gray"}
-                    value={paymentInfo.date}
-                    name="date"
-                    onChange={handleData}
-                  ></Input>
-                </HStack>
-                <HStack mt="5%">
-                  <Input
-                    type="text"
-                    placeholder="Card Holder Name"
-                    w={{ base: "100%", sm: "100%", md: "60%", lg: "40%" }}
-                    borderColor={"1px solid gray"}
-                    value={paymentInfo.name}
-                    name="name"
-                    onChange={handleData}
-                  ></Input>
-
-                  <Box w="15px"></Box>
-
-                  <Input
-                    type="text"
-                    w={{ base: "50%", sm: "50%", md: "30%", lg: "20%" }}
-                    placeholder="CVV"
-                    value={paymentInfo.cvv}
-                    name="cvv"
-                    borderColor={"1px solid gray"}
-                    onChange={handleData}
-                  ></Input>
-                </HStack>
-              </TabPanel>
-              <TabPanel>
-                <HStack>
-                  <Input
-                    type="text"
-                    w={{ base: "100%", sm: "100%", md: "60%", lg: "40%" }}
-                    placeholder="UPI ID"
-                    borderColor={"1px solid gray"}
-                    value={paymentInfo.upi}
-                    name="upi"
-                    onChange={handleData}
-                  ></Input>
-                </HStack>
-              </TabPanel>
-              <TabPanel>
-                <Button>Confirm COD</Button>
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
-        </Box>
-      </Box>
+        <Button>Pay Now</Button>
+        <Button>Cancel</Button>
+      </Flex>
     </Box>
   );
 };
