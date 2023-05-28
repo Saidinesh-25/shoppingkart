@@ -19,7 +19,7 @@ interface AppContextProps {
 export const AppContext = createContext<AppContextProps | null>(null);
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [categoryState, setCategoryState] = useState("Women");
+  const [categoryState, setCategoryState] = useState("All");
   const [cartState, setCartState] = useState();
 
   return (

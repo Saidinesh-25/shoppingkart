@@ -17,39 +17,17 @@ import { AppContext } from "../../_app";
 
 const Listing = ({ value }: any) => {
   const [products, setProducts] = useState(value);
-  //   const products = [
-  //     {
-  //       title:
-  //         "Google Slate 12.3-Inch 2 in 1 Laptop Intel Core m3, 8GB RAM, 64GB, Aspect Ratio 3:2",
-  //       images:
-  //         "https://images-na.ssl-images-amazon.com/images/I/71k%2BKbTBn5L._SL1500_.jpg",
-  //       id: 1,
-  //     },
-  //     {
-  //       title: "GOOGLE PIXEL 4A (JUST BLACK, 6GB RAM, 128GB STORAGE)",
-  //       images: "https://m.media-amazon.com/images/I/7199N-Uz2AL._SL1500_.jpg",
-  //       id: 2,
-  //     },
-  //     {
-  //       title:
-  //         "Quick Charger For Google Pixel 2 XL,3,3a,3a XL,3XL,4,4 XL,4 XL,4a,4a 5G,5,XL Charger Original Like Charger Type-C Qualcomm QC 3.1 Quick Charge Adaptive Fast Charging, Rapid, Dash, VOOC, AFC Charger(3.1 Amp,OP2, WHITE)",
-  //       images:
-  //         "https://images-na.ssl-images-amazon.com/images/I/31nj8q6QKAL.jpg",
-  //       id: 3,
-  //     },
-  //     {
-  //       title: "macboook pro",
-  //       images:
-  //         "https://www.cnet.com/a/img/resize/bcae6ebae333efd053a1aad485a7bb54b6c2a584/hub/2021/10/23/b4e8daa4-d3c1-4f4c-9a15-d127246205d9/macbook-pro-2021-cnet-review-15.jpg?auto=webp&fit=crop&height=1200&width=1200",
-  //       id: 4,
-  //     },
-  //   ];
 
   const router = useRouter();
   const handleRoute = (id: number) => {
     router.push(`/users/products/${id}/view`);
   };
   const { categoryState }: any = useContext(AppContext);
+
+  const filteredProducts =
+    categoryState === "All"
+      ? products
+      : products.filter((item: any) => item.category === categoryState);
 
   return (
     <Box height="auto" overflowX={"auto"}>
@@ -98,7 +76,7 @@ const Listing = ({ value }: any) => {
             </Tr>
           </Thead>
           <Tbody>
-            {products?.map((item: any) => (
+            {filteredProducts?.map((item: any) => (
               <Tr key={item.id}>
                 <Td textAlign={"center"}>
                   <Image
