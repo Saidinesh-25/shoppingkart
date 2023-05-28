@@ -72,19 +72,19 @@ const Cart = ({ value }: any) => {
   const handleCheckout = async () => {
     const latestOrders = { cartItems };
 
-    // try {
-    //   const res = await fetch(`https://pdata.onrender.com/orders`, {
-    //     method: "POST",
-    //     headers: {
-    //       "content-type": "application/json",
-    //     },
-    //     body: JSON.stringify(latestOrders),
-    //   });
-    //   const value = await res.json();
-    //   console.log(value);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const res = await fetch(`https://pdata.onrender.com/orders`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(latestOrders),
+      });
+      const value = await res.json();
+      console.log(value);
+    } catch (error) {
+      console.log(error);
+    }
     // for (let i = 0; i < idsForDelete.length; i++) {
     //   const id = idsForDelete[i];
     //   try {
@@ -97,20 +97,8 @@ const Cart = ({ value }: any) => {
     //     console.log(err);
     //   }
     // }
-    try {
-      const res = await fetch(`https://pdata.onrender.com/cart`, {
-        method: "PATCH",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(cartItems),
-      });
-      const result = await res.json();
-      console.log(result);
-    } catch (error) {
-      console.error(error);
-    }
-    // router.push("/users/payments");
+
+    router.push("/users/payments");
   };
   const handleCouponCode = (e: any) => {
     setCouponCode(e.target.value);
