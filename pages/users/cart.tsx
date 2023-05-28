@@ -17,13 +17,13 @@ const Cart = ({ value }: any) => {
   const router = useRouter();
 
   const [cartItems, setCartItems] = useState(value);
+  const [isCouponApplied, setIsCouponApplied] = useState(false);
   const { setCartState }: any = useContext(AppContext);
   const [couponCode, setCouponCode] = useState<string>("");
   const defaultTotal = cartItems.reduce(
     (acc: any, obj: any) => acc + Number(obj.price),
     0
   );
- 
 
   const [total, setTotal] = useState(defaultTotal);
   const shipping = 100;
@@ -67,15 +67,28 @@ const Cart = ({ value }: any) => {
   };
   console.log(cartItems, "afterset");
 
-  const handleCheckout = async () => {
-    setCartState(cartItems);
-
-    router.push("/users/payments");
-  };
   const handleCouponCode = (e: any) => {
     setCouponCode(e.target.value);
   };
+  const couponDiscount = () => {
+    if (isCouponApplied || couponCode === "") {
+      return;
+    }
 
+    setTotal(total - 50);
+    setIsCouponApplied(true);
+  };
+  const handleCheckout = async () => {
+    const finalPayload = cartItems.map((i: any) => {
+      return {
+        ...i,
+        total: finalTotal,
+      };
+    });
+    setCartState(finalPayload);
+
+    router.push("/users/payments");
+  };
   return (
     <Box
       display="flex"
@@ -233,7 +246,9 @@ const Cart = ({ value }: any) => {
               value={couponCode}
               onChange={handleCouponCode}
             />
-            <Button>Apply</Button>
+            <Button onClick={couponDiscount}>
+              {isCouponApplied ? "Applied" : "Apply"}
+            </Button>
           </HStack>
         </Box>
         <Box>
@@ -270,6 +285,26 @@ const Cart = ({ value }: any) => {
               ₹{shipping}
             </Box>
           </HStack>
+          {isCouponApplied ? (
+            <HStack justifyContent="space-between">
+              <Box
+                textAlign={{ base: "left", lg: "right" }}
+                fontSize={{ sm: "14px", lg: "16px", base: "10px" }}
+                fontWeight={800}
+              >
+                Discount
+              </Box>
+              <Box
+                textAlign={{ base: "left", lg: "right" }}
+                fontSize={{ sm: "14px", lg: "16px", base: "10px" }}
+                fontWeight={500}
+              >
+                - ₹50
+              </Box>
+            </HStack>
+          ) : (
+            ""
+          )}
           <HStack
             justifyContent="space-between"
             borderTop="1px dotted black"
