@@ -7,7 +7,9 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { AppContext } from "../_app";
+import { useRouter } from "next/router";
 type paymentInfo = {
   address: string;
   zip: number;
@@ -18,7 +20,8 @@ type paymentInfo = {
   cvv: number;
 };
 
-const Payments = () => {
+const Payments = ({ value }: any) => {
+  const { cartState }: any = useContext(AppContext);
   const [paymentInfo, setPaymentInfo] = useState<paymentInfo>({
     address: "",
     zip: 0,
@@ -28,18 +31,54 @@ const Payments = () => {
     name: "",
     cvv: 0,
   });
+  const idsForDelete = value.map((item: any) => item.id);
+  const router = useRouter();
   const handleData = (e: any) => {
-    e.preventDefault();
     const { name, value } = e.target;
     setPaymentInfo((prevState) => ({
       ...prevState,
       [name]: value,
+      cartState: cartState,
     }));
-    console.log(paymentInfo);
+    console.log(paymentInfo, "datatyping");
+  };
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    setPaymentInfo((prevState) => ({
+      ...prevState,
+      cartItems: cartState,
+    }));
+
+    try {
+      const res = await fetch(`https://pdata.onrender.com/orders`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(paymentInfo),
+      });
+      const value = await res.json();
+      console.log(value);
+    } catch (error) {
+      console.log(error);
+    }
+    for (let i = 0; i < idsForDelete.length; i++) {
+      const id = idsForDelete[i];
+      try {
+        const res2 = await fetch(`https://pdata.onrender.com/cart/${id}`, {
+          method: "DELETE",
+        });
+        const data = await res2.json();
+        console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    router.push("/users/success");
   };
 
   return (
-    <form onSubmit={handleData}>
+    <form onSubmit={handleSubmit}>
       <Box
         h="full"
         display="flex"
@@ -180,3 +219,14 @@ const Payments = () => {
 };
 
 export default Payments;
+export const getServerSideProps = async () => {
+  const res1 = await fetch(`https://pdata.onrender.com/cart`);
+  const value = await res1.json();
+
+  console.log(value, "serverside");
+  return {
+    props: {
+      value: value,
+    },
+  };
+};

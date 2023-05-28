@@ -7,11 +7,8 @@ import {
   Button,
   Box,
   Text,
-  Center,
   Flex,
-  Spacer,
   Input,
-  calc,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
@@ -20,12 +17,13 @@ const Cart = ({ value }: any) => {
   const router = useRouter();
 
   const [cartItems, setCartItems] = useState(value);
+  const { setCartState }: any = useContext(AppContext);
   const [couponCode, setCouponCode] = useState<string>("");
   const defaultTotal = cartItems.reduce(
     (acc: any, obj: any) => acc + Number(obj.price),
     0
   );
-  const idsForDelete = value.map((item: any) => item.id);
+ 
 
   const [total, setTotal] = useState(defaultTotal);
   const shipping = 100;
@@ -70,33 +68,7 @@ const Cart = ({ value }: any) => {
   console.log(cartItems, "afterset");
 
   const handleCheckout = async () => {
-    const latestOrders = { cartItems };
-
-    try {
-      const res = await fetch(`https://pdata.onrender.com/orders`, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(latestOrders),
-      });
-      const value = await res.json();
-      console.log(value);
-    } catch (error) {
-      console.log(error);
-    }
-    // for (let i = 0; i < idsForDelete.length; i++) {
-    //   const id = idsForDelete[i];
-    //   try {
-    //     const res2 = await fetch(`https://pdata.onrender.com/cart/${id}`, {
-    //       method: "DELETE",
-    //     });
-    //     const data = await res2.json();
-    //     console.log(data);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // }
+    setCartState(cartItems);
 
     router.push("/users/payments");
   };

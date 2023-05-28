@@ -111,8 +111,8 @@ const Listing = ({ value }: any) => {
                 <Td
                   textAlign={"start"}
                   padding="8px"
-                  fontSize={{ lg: "18px", sm: "14px", base: "18px" }}
-                  fontWeight={500}
+                  fontSize={{ lg: "18px", sm: "14px", base: "10px" }}
+                  fontWeight={600}
                 >
                   {item.title}
                 </Td>
