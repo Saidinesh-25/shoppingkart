@@ -97,7 +97,20 @@ const Cart = ({ value }: any) => {
     //     console.log(err);
     //   }
     // }
-    router.push("/users/payments");
+    try {
+      const res = await fetch(`https://pdata.onrender.com/cart`, {
+        method: "PATCH",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(cartItems),
+      });
+      const result = await res.json();
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+    // router.push("/users/payments");
   };
   const handleCouponCode = (e: any) => {
     setCouponCode(e.target.value);
