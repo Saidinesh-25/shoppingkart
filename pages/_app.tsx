@@ -5,7 +5,14 @@ import Layout from "../components/layout";
 import { createContext, useState } from "react";
 import { AppContextProps, cartItems } from "../types/types";
 
-export const AppContext = createContext<AppContextProps | null>(null);
+const initialContext: AppContextProps = {
+  categoryState: "All",
+  setCategoryState: () => {},
+  cartState: undefined,
+  setCartState: () => {},
+};
+
+export const AppContext = createContext<AppContextProps>(initialContext);
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [categoryState, setCategoryState] = useState<string>("All");

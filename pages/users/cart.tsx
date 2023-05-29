@@ -11,7 +11,7 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { cartItems } from "../../types/types";
+import { AppContextProps, cartItems } from "../../types/types";
 
 const Cart = ({ value }: any) => {
   console.log(value, "cartdatafromserver");
@@ -19,7 +19,7 @@ const Cart = ({ value }: any) => {
 
   const [cartItems, setCartItems] = useState(value);
   const [isCouponApplied, setIsCouponApplied] = useState(false);
-  const { setCartState }: any = useContext(AppContext);
+  const { setCartState } = useContext<AppContextProps>(AppContext);
   const [couponCode, setCouponCode] = useState<string>("");
   const defaultTotal = cartItems.reduce(
     (acc: any, obj: any) => acc + Number(obj.price),

@@ -2,10 +2,15 @@ import { Box, Button, Flex, Input } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../_app";
 import { useRouter } from "next/router";
-import { PaymentsPageProps, cartItems, paymentInfo } from "../../types/types";
+import {
+  AppContextProps,
+  PaymentsPageProps,
+  cartItems,
+  paymentInfo,
+} from "../../types/types";
 
 const Payments = ({ value }: { value: PaymentsPageProps }) => {
-  const { cartState }: any = useContext(AppContext);
+  const { cartState } = useContext<AppContextProps>(AppContext);
   const [paymentInfo, setPaymentInfo] = useState<paymentInfo>({
     address: "",
     zip: 0,

@@ -24,7 +24,8 @@ import { AppContextProps } from "../types/types";
 
 const Header = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { categoryState, setCategoryState }: any = useContext(AppContext);
+  const { categoryState, setCategoryState } =
+    useContext<AppContextProps>(AppContext);
   const router = useRouter();
   const handleRoute = () => {
     router.push("/users/products");

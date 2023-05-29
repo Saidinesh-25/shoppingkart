@@ -1,16 +1,4 @@
-import {
-  Box,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Image,
-  Button,
-  Text,
-  Center,
-} from "@chakra-ui/react";
+import { Box, Center } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import { AppContext } from "../../_app";
