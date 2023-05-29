@@ -14,15 +14,17 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { AiFillFilter, AiOutlineShoppingCart } from "react-icons/ai";
-import { FiLogOut, FiPackage } from "react-icons/fi";
+import { FiLogOut } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
 
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AppContext } from "../pages/_app";
 import { useRouter } from "next/router";
+import { AppContextProps } from "../types/types";
 
 const Header = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { categoryState, setCategoryState }: any = useContext(AppContext);
   const router = useRouter();
   const handleRoute = () => {
     router.push("/users/products");
@@ -43,7 +45,6 @@ const Header = () => {
     console.log("selctedcate", categoryState);
     // Apply category filter logic here
   };
-  const { categoryState, setCategoryState }: any = useContext(AppContext);
 
   const handleLogout = () => {
     router.push("/");
@@ -70,7 +71,6 @@ const Header = () => {
               <DrawerCloseButton />
               <DrawerHeader>Category Filter</DrawerHeader>
               <DrawerBody display={"block"}>
-                {/* Render your category filter options */}
                 <Button
                   onClick={() => {
                     handleRoute();

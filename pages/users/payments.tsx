@@ -10,17 +10,9 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../_app";
 import { useRouter } from "next/router";
-type paymentInfo = {
-  address: string;
-  zip: number;
-  phone: number;
-  sixteenDigitNumber: number;
-  date: string;
-  name: string;
-  cvv: number;
-};
+import { PaymentsPageProps, cartItems, paymentInfo } from "../../types/types";
 
-const Payments = ({ value }: any) => {
+const Payments = ({ value }: { value: PaymentsPageProps }) => {
   const { cartState }: any = useContext(AppContext);
   const [paymentInfo, setPaymentInfo] = useState<paymentInfo>({
     address: "",
@@ -31,9 +23,10 @@ const Payments = ({ value }: any) => {
     name: "",
     cvv: 0,
   });
-  const idsForDelete = value.map((item: any) => item.id);
+  const idsForDelete = value.map((item: cartItems) => item.id);
+
   const router = useRouter();
-  const handleData = (e: any) => {
+  const handleData = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setPaymentInfo((prevState) => ({
       ...prevState,
@@ -41,8 +34,12 @@ const Payments = ({ value }: any) => {
       cartState: cartState,
     }));
     console.log(paymentInfo, "datatyping");
+    console.log(cartState, "cartstate");
   };
-  const handleSubmit = async (e: any) => {
+  const handleCancel = () => {
+    router.push("/users/cart");
+  };
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setPaymentInfo((prevState) => ({
       ...prevState,
@@ -211,7 +208,7 @@ const Payments = ({ value }: any) => {
           justifyContent="space-between"
         >
           <Button type="submit">Pay Now</Button>
-          <Button>Cancel</Button>
+          <Button onClick={handleCancel}>Cancel</Button>
         </Flex>
       </Box>
     </form>

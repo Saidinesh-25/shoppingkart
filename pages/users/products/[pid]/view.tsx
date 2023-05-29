@@ -16,10 +16,11 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { products } from "../../../../types/types";
 
-const View = ({ value, totalItemsInCart }: any) => {
+const View = ({ value }: { value: products }) => {
   console.log(typeof value.id, "what is in the value");
-  console.log(totalItemsInCart, "kart");
+
   const sizes = ["S", "M", "L", "XL", "XXL", "XXXL"];
   const colors = [
     "Red",
@@ -249,14 +250,10 @@ export async function getServerSideProps(context: any) {
   const res = await fetch(`https://pdata.onrender.com/products/${pid}`);
   const value = await res.json();
   console.log(value, "viewpagefromserver");
-  const res2 = await fetch(`https://pdata.onrender.com/cart`);
-  const totalItemsInCart = await res2.json();
-  console.log(totalItemsInCart, "view");
 
   return {
     props: {
       value: value,
-      totalItemsInCart: totalItemsInCart,
     },
   };
 }

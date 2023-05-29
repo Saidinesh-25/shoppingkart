@@ -14,8 +14,9 @@ import {
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import { AppContext } from "../../_app";
+import { ListingPageProps, products } from "../../../types/types";
 
-const Listing = ({ value }: any) => {
+const Listing = ({ value }: { value: ListingPageProps }) => {
   const [products, setProducts] = useState(value);
 
   const router = useRouter();
@@ -27,7 +28,7 @@ const Listing = ({ value }: any) => {
   const filteredProducts =
     categoryState === "All"
       ? products
-      : products.filter((item: any) => item.category === categoryState);
+      : products.filter((item: products) => item.category === categoryState);
 
   return (
     <Box height="auto" overflowX={"auto"}>
@@ -76,7 +77,7 @@ const Listing = ({ value }: any) => {
             </Tr>
           </Thead>
           <Tbody>
-            {filteredProducts?.map((item: any) => (
+            {filteredProducts?.map((item: products) => (
               <Tr key={item.id}>
                 <Td textAlign={"center"}>
                   <Image

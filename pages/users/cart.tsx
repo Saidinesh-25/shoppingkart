@@ -11,6 +11,7 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { cartItems } from "../../types/types";
 
 const Cart = ({ value }: any) => {
   console.log(value, "cartdatafromserver");
@@ -31,8 +32,8 @@ const Cart = ({ value }: any) => {
 
   console.log(cartItems, "final");
 
-  const increaseCount = (id: any, itemcount: any) => {
-    const updatedItems = cartItems.map((item: any) => {
+  const increaseCount = (id: number, itemcount: number) => {
+    const updatedItems = cartItems.map((item: cartItems) => {
       if (item.id === id) {
         const updatedTotal = total + Number(item.price);
         setTotal(updatedTotal);
@@ -46,10 +47,10 @@ const Cart = ({ value }: any) => {
 
     setCartItems(updatedItems);
   };
-  const decreaseCount = (id: any, itemcount: any, item: any) => {
+  const decreaseCount = (id: number, itemcount: number, item: cartItems) => {
     console.log(item.price, "omgitem");
 
-    const updatedItems = cartItems.map((item: any) => {
+    const updatedItems = cartItems.map((item: cartItems) => {
       if (itemcount > 0) {
         if (item.id === id) {
           const updatedTotal = total - Number(item.price);
@@ -67,7 +68,7 @@ const Cart = ({ value }: any) => {
   };
   console.log(cartItems, "afterset");
 
-  const handleCouponCode = (e: any) => {
+  const handleCouponCode = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCouponCode(e.target.value);
   };
   const couponDiscount = () => {
@@ -79,7 +80,7 @@ const Cart = ({ value }: any) => {
     setIsCouponApplied(true);
   };
   const handleCheckout = async () => {
-    const finalPayload = cartItems.map((i: any) => {
+    const finalPayload = cartItems.map((i: cartItems) => {
       return {
         ...i,
         total: finalTotal,
