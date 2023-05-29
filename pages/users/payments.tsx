@@ -23,6 +23,16 @@ const Payments = ({ value }: { value: PaymentsPageProps }) => {
     name: "",
     cvv: 0,
   });
+
+  useEffect(() => {
+    const checkCart = async () => {
+      if (value.length === 0) {
+        await router.push("/users/products");
+      }
+    };
+
+    checkCart();
+  }, []);
   const idsForDelete = value.map((item: cartItems) => item.id);
 
   const router = useRouter();
