@@ -32,7 +32,7 @@ const Payments = ({ value }: { value: PaymentsPageProps }) => {
     };
 
     checkCart();
-  }, []);
+  });
   const idsForDelete = value.map((item: cartItems) => item.id);
 
   const router = useRouter();
