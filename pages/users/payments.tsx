@@ -25,9 +25,9 @@ const Payments = ({ value }: { value: PaymentsPageProps }) => {
   });
 
   useEffect(() => {
-    const checkCart = async () => {
+    const checkCart = () => {
       if (value.length === 0) {
-        await router.push("/users/products");
+        router.push("/users/products");
       }
     };
 
