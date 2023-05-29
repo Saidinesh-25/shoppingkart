@@ -17,6 +17,10 @@ export type cartItems = {
   size: string;
   title: string;
 };
+export type ProductListingPageProps = {
+  handleRoute: (id: number) => void;
+  filteredProducts: products[];
+};
 export type PaymentsPageProps = cartItems[];
 export type AppContextProps = {
   categoryState: string;

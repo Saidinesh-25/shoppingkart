@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  HStack,
-  Input,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Input } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../_app";
 import { useRouter } from "next/router";

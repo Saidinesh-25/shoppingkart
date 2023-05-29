@@ -9,12 +9,7 @@ import {
   Button,
   Text,
 } from "@chakra-ui/react";
-import { products } from "../types/types";
-
-type ProductListingPageProps = {
-  handleRoute: (id: number) => void;
-  filteredProducts: products[];
-};
+import { ProductListingPageProps, products } from "../types/types";
 
 const ProductListingTable = ({
   handleRoute,
