@@ -52,9 +52,6 @@ const Header = () => {
     router.push("/users/cart");
   };
 
-  const handleMyOrders = () => {
-    // Implement your "My Orders" logic here
-  };
   return (
     <Box w="full" h="40px" bg="blue.100" display={"flex"}>
       <Box>
@@ -63,6 +60,7 @@ const Header = () => {
           variant="outline"
           size="sm"
           aria-label="Open Category Filter"
+          mt="3px"
         >
           <AiFillFilter />
         </Button>
@@ -117,7 +115,7 @@ const Header = () => {
       <Box ml="auto" mr="2" display={"flex"}>
         <Box mr="5">
           {" "}
-          <Button onClick={handleCart}>
+          <Button bg={"blue.100"} onClick={handleCart}>
             <AiOutlineShoppingCart />
           </Button>
         </Box>
@@ -127,6 +125,7 @@ const Header = () => {
             variant="outline"
             size="sm"
             aria-label="Open Profile Menu"
+            mt="3px"
           >
             <CgProfile />
           </MenuButton>
@@ -134,7 +133,6 @@ const Header = () => {
             <MenuItem onClick={handleLogout} icon={<FiLogOut />}>
               Logout
             </MenuItem>
-            <MenuItem icon={<FiPackage />}>My Orders</MenuItem>
           </MenuList>
         </Menu>
       </Box>
